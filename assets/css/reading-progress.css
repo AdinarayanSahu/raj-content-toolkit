@@ -1,0 +1,58 @@
+/**
+ * Reading Progress Bar — Styles
+ *
+ * Design goals:
+ *   - Isolated: no dependency on theme variables or classes.
+ *   - Non-intrusive: fixed positioning so zero impact on page layout.
+ *   - Smooth: CSS transition on width gives a fluid feel.
+ *   - Accessible: respects the user's motion preference.
+ *
+ * @package RajContentToolkit
+ */
+
+/* Custom property defined on the element so JS only touches aria-valuenow
+   and the CSS handles the rest — a clean separation of concerns. */
+#rct-reading-progress-bar {
+    /* ── Position ─────────────────────────────────────────────────── */
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    /* ── Dimensions ───────────────────────────────────────────────── */
+    /* Width starts at 0 and is driven by the JS scroll handler.      */
+    width: 0%;
+    height: 4px;         /* Thin but clearly visible. */
+
+    /* ── Stacking ─────────────────────────────────────────────────── */
+    /* 9999 keeps us above most admin bars, sticky headers, and menus. */
+    z-index: 9999;
+
+    /* ── Colour ───────────────────────────────────────────────────── */
+    /* A vibrant accent that stands out on both light and dark themes. */
+    background-color: #e25c1a;
+
+    /* ── Animation ────────────────────────────────────────────────── */
+    /* ease-out feels natural: quick response, smooth finish.          */
+    transition: width 0.1s ease-out;
+
+    /* ── Miscellaneous ────────────────────────────────────────────── */
+    /* Ensure the bar never disrupts text selection or pointer events. */
+    pointer-events: none;
+
+    /* Remove any margin/padding a theme's CSS reset might apply. */
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0 2px 2px 0; /* Subtle rounded right edge. */
+}
+
+/**
+ * Respect the user's "prefer reduced motion" accessibility setting.
+ * When this media query matches, remove the transition so the bar
+ * jumps instantly instead of animating.
+ */
+@media (prefers-reduced-motion: reduce) {
+    #rct-reading-progress-bar {
+        transition: none;
+    }
+}
